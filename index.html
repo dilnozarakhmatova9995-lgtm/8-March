@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Вопросики 💖</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #ffe6f0, #ffd1dc);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    overflow: hidden;
+  }
+  h1 {
+    text-align: center;
+    font-size: 3rem;
+    color: #ff2e63;
+    text-shadow: 1px 1px 6px white;
+    margin-bottom: 50px;
+  }
+  button {
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  #yes {
+    background-color: #ff6f91;
+    color: white;
+  }
+  #no {
+    background-color: #ff2e63;
+    color: white;
+    position: absolute;
+  }
+</style>
+</head>
+<body>
+<h1 id="question">Хочешь ли ты улыбаться каждый день? 😄</h1>
+<button id="yes">ДА</button>
+<button id="no">НЕТ</button>
+
+<script>
+const noButton = document.getElementById('no');
+const yesButton = document.getElementById('yes');
+const question = document.getElementById('question');
+const body = document.body;
+
+let step = 0; // шаги сценария
+
+// Список последующих вопросов после первого шага
+const questions = [
+  "Хочешь обниматься прямо сейчас? 🤗",
+  "Обняла бы меня прямо сейчас, чонам 🤗",
+  "Про никах не забываем 😄💖. Ты счастлива быть моей? 💖"
+];
+
+// Двигаем кнопку "НЕТ"
+noButton.addEventListener('mouseenter', () => {
+    const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+    noButton.style.left = x + 'px';
+    noButton.style.top = y + 'px';
+});
+
+// Логика нажатия "ДА"
+yesButton.addEventListener('click', () => {
+    if(step === 0){
+        // Первый вопрос — сразу показать подтверждение
+        question.innerHTML = "Правильно 😄 со мной всегда будешь!<br>" + questions[0];
+        step = 1; // теперь следующий шаг
+    } else if(step >= 1 && step < questions.length){
+        // Показать следующие вопросы
+        question.innerHTML = questions[step];
+        step++;
+    } else {
+        // Финальное поздравление
+        body.innerHTML = `
+          <h1>И я тебя люблю, чони дилям, и всегда буду стараться, чтобы ты улыбалась.<br>С 8 марта, чонам! 💖</h1>
+        `;
+    }
+});
+</script>
+</body>
+</html>
