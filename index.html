@@ -83,24 +83,23 @@ const questions = [
   "Про никах не забываем 😄💖 Ты счастлива быть моей?"
 ];
 
-/* создаём аудио, но не запускаем сразу */
-const audio = new Audio('music.mp3');
-audio.loop = true;
-
-/* кнопка НЕТ — убегает и запускает музыку */
+/* убегающая кнопка НЕТ */
 no.addEventListener("mouseenter", () => {
-  // запуск музыки
-  if(audio.paused) audio.play();
-
-  // убегает
   const x = Math.random() * (window.innerWidth - no.offsetWidth);
   const y = Math.random() * (window.innerHeight - no.offsetHeight);
   no.style.left = x + "px";
   no.style.top = y + "px";
 });
 
+/* создаём аудио, но не запускаем сразу */
+const audio = new Audio('music.mp3');
+audio.loop = true;
+
 /* кнопка ДА */
 yes.addEventListener("click", () => {
+
+  // старт музыки при первом клике
+  if(audio.paused) audio.play();
 
   if(step < questions.length){
     question.textContent = questions[step];
