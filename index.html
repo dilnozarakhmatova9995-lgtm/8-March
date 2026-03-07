@@ -5,50 +5,52 @@
 <title>Вопросики 💖</title>
 
 <style>
-body{
-  margin:0;
-  padding:0;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  font-family:'Comic Sans MS', cursive;
-  overflow:hidden;
 
-  background-size:cover;
-  background-position:center;
-  transition: background-image 1s ease;
+body{
+margin:0;
+padding:0;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-family:'Comic Sans MS', cursive;
+overflow:hidden;
+
+background-size:cover;
+background-position:center;
+transition: background-image 1s ease;
 }
 
 h1{
-  text-align:center;
-  font-size:3rem;
-  color:white;
-  text-shadow:2px 2px 10px black;
-  margin-bottom:50px;
-  max-width:900px;
+text-align:center;
+font-size:3rem;
+color:white;
+text-shadow:2px 2px 10px black;
+margin-bottom:50px;
+max-width:900px;
 }
 
 button{
-  font-size:1.5rem;
-  padding:15px 30px;
-  margin:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+font-size:1.5rem;
+padding:15px 30px;
+margin:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
 #yes{
-  background:#ff6f91;
-  color:white;
+background:#ff6f91;
+color:white;
 }
 
 #no{
-  background:#ff2e63;
-  color:white;
-  position:absolute;
+background:#ff2e63;
+color:white;
+position:absolute;
 }
+
 </style>
 </head>
 
@@ -68,16 +70,21 @@ const no = document.getElementById("no")
 
 let step = 0
 
-/* ФОНЫ */
+/* первый фон */
 body.style.backgroundImage = "url('photo1.jpg')"
 
-/* вопросы */
 const questions = [
+
+"Правильно 😄 со мной всегда будешь! Хочешь обниматься прямо сейчас? 🤗",
+
 "Обняла бы меня прямо сейчас, чонам? 🤗",
+
 "Про никах не забываем 😄💖 Ты счастлива быть моей?"
+
 ]
 
-/* кнопка нет убегает */
+/* кнопка НЕТ убегает */
+
 no.addEventListener("mouseenter", () => {
 
 const x = Math.random() * (window.innerWidth - no.offsetWidth)
@@ -88,46 +95,32 @@ no.style.top = y + "px"
 
 })
 
-/* логика */
+/* кнопка ДА */
+
 yes.addEventListener("click", () => {
 
-if(step === 0){
+if(step < questions.length){
 
-question.innerHTML = "Правильно 😄 со мной всегда будешь!<br>Хочешь обниматься прямо сейчас? 🤗"
+question.textContent = questions[step]
 
-body.style.backgroundImage = "url('photo2.jpg')"
+step++
 
-step = 1
-return
-}
+/* меняем фон */
+body.style.backgroundImage = "url('photo" + (step+1) + ".jpg')"
 
-if(step === 1){
+}else{
 
-question.innerHTML = questions[0]
-
-body.style.backgroundImage = "url('photo3.jpg')"
-
-step = 2
-return
-}
-
-if(step === 2){
-
-question.innerHTML = questions[1]
-
-step = 3
-return
-}
-
-/* финал */
+body.style.backgroundImage = "url('photo5.jpg')"
 
 body.innerHTML = `
 <h1>
-Я тебя люблю, чони дилям ❤️ <br><br>
+Я тебя люблю, чони дилям ❤️<br><br>
 И всегда буду стараться чтобы ты улыбалась.<br><br>
 С 8 марта чонам 🌸
 </h1>
 `
+
+}
 
 })
 
