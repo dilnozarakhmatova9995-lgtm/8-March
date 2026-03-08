@@ -55,6 +55,39 @@ button {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Падающие сердечки */
+.falling-heart{
+  position:fixed;
+  top:-20px;
+  font-size:24px;
+  animation: fall linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-20px) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(100vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* Сердечки за курсором */
+.heart-cursor{
+  position:fixed;
+  font-size:20px;
+  pointer-events:none;
+  animation: float 1s linear forwards;
+}
+
+@keyframes float{
+  0%{opacity:1; transform:translateY(0) scale(1);}
+  100%{opacity:0; transform:translateY(-40px) scale(1.5);}
+}
 </style>
 </head>
 
@@ -83,6 +116,7 @@ const questions = [
   "Про никах не забываем 😄💖 Ты счастлива быть моей?"
 ];
 
+// Кнопка НЕТ убегает
 no.addEventListener("mouseenter", () => {
   const x = Math.random() * (window.innerWidth - no.offsetWidth);
   const y = Math.random() * (window.innerHeight - no.offsetHeight);
@@ -90,9 +124,37 @@ no.addEventListener("mouseenter", () => {
   no.style.top = y + "px";
 });
 
+// Музыка
 const audio = new Audio('music.mp3');
 audio.loop = true;
 
+// Функция падающих сердечек
+function startHearts(){
+  setInterval(()=>{
+    const heart = document.createElement("div");
+    const hearts = ["❤️","💖","💕","💗"];
+    heart.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+    heart.className = "falling-heart";
+    heart.style.left = Math.random()*window.innerWidth + "px";
+    heart.style.animationDuration = (3 + Math.random()*3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove();},6000);
+  },200);
+}
+
+// Сердечки за курсором
+document.addEventListener("mousemove", function(e){
+  const heart = document.createElement("div");
+  const hearts = ["❤️","💖","💕","💗"];
+  heart.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+  heart.className = "heart-cursor";
+  heart.style.left = e.clientX + "px";
+  heart.style.top = e.clientY + "px";
+  document.body.appendChild(heart);
+  setTimeout(()=>{heart.remove();},1000);
+});
+
+// Кнопка ДА
 yes.addEventListener("click", () => {
 
   if(audio.paused) audio.play();
@@ -100,7 +162,6 @@ yes.addEventListener("click", () => {
   if(step < questions.length){
     question.textContent = questions[step];
     step++;
-
     body.style.backgroundImage = "url('photo" + (step+1) + ".jpg')";
   } else {
     body.style.backgroundImage = "url('photo7.jpg')";
@@ -111,6 +172,21 @@ yes.addEventListener("click", () => {
       С 8 марта чонам 🌸
       </h1>
     `;
+
+    // Запуск падающих сердечек
+    startHearts();
+
+    // Секретная фраза через 3 секунды
+    setTimeout(()=>{
+      const finalText = document.createElement("h1");
+      finalText.style.textAlign = "center";
+      finalText.style.color = "yellow";
+      finalText.style.textShadow = "2px 2px 10px black";
+      finalText.style.marginTop = "20px";
+      finalText.style.fontSize = "2rem";
+      finalText.innerHTML = "И это только начало нашей истории ❤️";
+      body.appendChild(finalText);
+    },3000);
   }
 });
 </script>
